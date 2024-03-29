@@ -259,6 +259,12 @@ router.get("/shifts", async (req, res) => {
             return acc;
         }, {});
 
+        Object.keys(groupedByCaretaker).forEach(caretakerId => {
+            groupedByCaretaker[caretakerId].shifts.sort((a, b) => {
+                return a.startTime.localeCompare(b.startTime);
+            });
+        });
+
         // Ensure all caretakers are included, even those without shifts
         caretakers.forEach(caretaker => {
             if (!groupedByCaretaker[caretaker.id]) {
